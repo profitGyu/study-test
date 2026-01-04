@@ -1,20 +1,6 @@
 import { create } from "zustand"
 import { persist } from "zustand/middleware"
 
-interface VocabularyWord {
-  original: string
-  hiragana: string
-  katakana: string
-  korean: string
-}
-
-interface QuizState {
-  vocabulary: VocabularyWord[]
-  setVocabulary: (words: VocabularyWord[]) => void
-  score: number
-  setScore: (score: number) => void
-}
-
 interface SongLyric {
   timestamp: string
   original: string
@@ -40,20 +26,6 @@ interface SongState {
   addSong: (song: SongState["currentSong"]) => void
 }
 
-export const useQuizStore = create<QuizState>()(
-  persist(
-    (set) => ({
-      vocabulary: [],
-      setVocabulary: (words) => set({ vocabulary: words }),
-      score: 0,
-      setScore: (score) => set({ score }),
-    }),
-    {
-      name: "quiz-storage",
-    },
-  ),
-)
-
 export const useSongStore = create<SongState>()(
   persist(
     (set) => ({
@@ -72,3 +44,4 @@ export const useSongStore = create<SongState>()(
     },
   ),
 )
+

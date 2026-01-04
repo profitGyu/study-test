@@ -10,6 +10,7 @@ const compat = new FlatCompat({
 });
 
 const eslintConfig = [
+  // Next.js 기본 설정 (TypeScript, React, Next.js 포함)
   ...compat.extends("next/core-web-vitals", "next/typescript"),
 ];
 
