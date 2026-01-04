@@ -28,7 +28,7 @@ export default function QuizPage() {
   const [showResult, setShowResult] = useState(false)
   const [quizComplete, setQuizComplete] = useState(false)
   const [quizQuestions, setQuizQuestions] = useState<QuizQuestion[]>([])
-  const [answers, setAnswers] = useState<string[]>([])
+  const [answers, setAnswers] = useState<string[][]>([])
 
   const generateQuiz = (categoryId: string, mode: QuizMode) => {
     const category = VOCABULARY_CATEGORIES.find((c) => c.id === categoryId)
