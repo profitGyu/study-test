@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Play, Pause, ArrowLeft } from "lucide-react"
+import { Play, Pause, ArrowLeft, Eye, EyeOff } from "lucide-react"
 import { motion } from "framer-motion"
 import type { Song } from "@/lib/songs-data"
 
@@ -16,6 +16,7 @@ interface SongDetailClientProps {
 export function SongDetailClient({ song }: SongDetailClientProps) {
   const router = useRouter()
   const [displayMode, setDisplayMode] = useState<"original" | "hiragana" | "katakana">("original")
+  const [showKorean, setShowKorean] = useState(true)
   const [player, setPlayer] = useState<any>(null)
   const [isPlaying, setIsPlaying] = useState(false)
   const [currentTime, setCurrentTime] = useState(0)
@@ -194,13 +195,33 @@ export function SongDetailClient({ song }: SongDetailClientProps) {
                 )}
               </Button>
 
-              <Tabs value={displayMode} onValueChange={(value: any) => setDisplayMode(value)}>
-                <TabsList>
-                  <TabsTrigger value="original">원문</TabsTrigger>
-                  <TabsTrigger value="hiragana">히라가나</TabsTrigger>
-                  <TabsTrigger value="katakana">가타카나</TabsTrigger>
-                </TabsList>
-              </Tabs>
+              <div className="flex items-center gap-4">
+                <Tabs value={displayMode} onValueChange={(value: any) => setDisplayMode(value)}>
+                  <TabsList>
+                    <TabsTrigger value="original">원문</TabsTrigger>
+                    <TabsTrigger value="hiragana">히라가나</TabsTrigger>
+                    <TabsTrigger value="katakana">가타카나</TabsTrigger>
+                  </TabsList>
+                </Tabs>
+                <Button
+                  variant={showKorean ? "default" : "outline"}
+                  size="sm"
+                  onClick={() => setShowKorean(!showKorean)}
+                  className="gap-2"
+                >
+                  {showKorean ? (
+                    <>
+                      <Eye className="h-4 w-4" />
+                      <span className="hidden sm:inline">한국어 표시</span>
+                    </>
+                  ) : (
+                    <>
+                      <EyeOff className="h-4 w-4" />
+                      <span className="hidden sm:inline">한국어 숨김</span>
+                    </>
+                  )}
+                </Button>
+              </div>
             </div>
 
             <div
@@ -242,13 +263,15 @@ export function SongDetailClient({ song }: SongDetailClientProps) {
                         >
                           {getLyricText(lyric)}
                         </div>
-                        <div
-                          className={`text-sm transition-all break-words ${
-                            isActive ? "text-foreground font-medium" : "text-muted-foreground"
-                          }`}
-                        >
-                          {lyric.korean}
-                        </div>
+                        {showKorean && (
+                          <div
+                            className={`text-sm transition-all break-words ${
+                              isActive ? "text-foreground font-medium" : "text-muted-foreground"
+                            }`}
+                          >
+                            {lyric.korean}
+                          </div>
+                        )}
                       </div>
                     </div>
                   </motion.div>
